@@ -4,12 +4,12 @@ from board import Board
 '''calculate the best move of the board'''
 def bestMove(board):
     if(board.nMoves() == board.nRow * board.nCol):
-        return 0 #draw
+        return (0,0) #draw
     
     for i in range(board.nCol):
 
         if(board.canPlay(str(i)) and board.isWinningMove(i)):
-            return (board.nCol * board.nRow + 1 - board.nMoves()) / 2
+            return ((board.nCol * board.nRow + 1 - board.nMoves()) / 2,i)
 
     # the lower bound should be this  
     bestScore = - board.nCol * board.nRow
@@ -18,13 +18,12 @@ def bestMove(board):
         if(board.canPlay(str(i))):
             nextboard = board
             nextboard.play(str(i))
-            score = bestMove(nextboard)
+            (score,col) = bestMove(nextboard)
             if(score  > bestScore):
                 bestScore = score
-                bestCol = i
+                bestCol = col
 
-    return bestScore
+    return (bestScore,bestCol)
 #create a standard connect four board
 board = Board(7,6)
-
 print(bestMove(board))
