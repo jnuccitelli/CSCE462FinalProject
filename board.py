@@ -57,24 +57,23 @@ class Board:
                 break
             count3 += 1
 
-        return self.canPlay(col) and self.isWinningMoveHelp1(col,count3, count % 2,boardList)
+        current_player = count % 2
+        if(count3 >= 3 and boardList[col][count3-1] == current_player and boardList[col][count3-2] == current_player and boardList[col][count3-3] == current_player):
+            return True
 
-    def isWinningMoveHelp1(self, row, col, player,gameboard):
-        return (
-            self.check_direction(row, col, player, 1, 0,gameboard) or  # Vertical
-            self.check_direction(row, col, player, 0, 1,gameboard) or # Horizontal
-            self.check_direction(row, col, player, 1, 1,gameboard) or  # Diagonal /
-            self.check_direction(row, col, player, 1, -1,gameboard)    # Diagonal \
-        )
+        for dy in (-1,0,1):  # Iterate on horizontal (dy = 0) or two diagonal directions (dy = -1 or dy = 1)
+            nb = 0                     # counter of the number of stones of current player surronding the played stone in tested direction.
+            for dx in (-1,1):# count continuous stones of current player on the left, then right of the played column
+                x = col + dx
+                y = count3 + dx * dy
+                while( x >= 0 and x < self.nCol and y >= 0 and y < self.nRow and boardList[x][y] == current_player): 
+                    nb += 1
+                    x += dx
+                    y += dx*dy
 
-    def check_direction(self, row, col, player, row_delta, col_delta,gameboard):
-        count = 1 
-        for delta in (1, -1):  
-            r, c = row + delta * row_delta, col + delta * col_delta
-            while 0 <= r < self.nCol and 0 <= c < self.nRow and gameboard[r][c] == player:
-                count += 1
-                r += delta * row_delta
-                c += delta * col_delta
-                if count >= 4:  
-                    return True
+            if(nb >= 3):
+                return True
+
         return False
+
+
