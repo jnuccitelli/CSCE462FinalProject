@@ -65,7 +65,7 @@ class Board:
             nb = 0                     # counter of the number of stones of current player surronding the played stone in tested direction.
             for dx in (-1,1):# count continuous stones of current player on the left, then right of the played column
                 x = col + dx
-                y = count3 + dx * dy
+                y = count3 + dx * dy 
                 while( x >= 0 and x < self.nCol and y >= 0 and y < self.nRow and boardList[x][y] == current_player): 
                     nb += 1
                     x += dx
