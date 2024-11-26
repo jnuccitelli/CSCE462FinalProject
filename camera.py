@@ -1,40 +1,66 @@
 import cv2
 import numpy as np
 
-cam_port = 0
-cam = cv2.VideoCapture(cam_port) 
-result, image = cam.read() 
-  
-if result: 
+def map_contours_to_grid(contours, grid_shape, image_shape):
+    grid = np.zeros(grid_shape, dtype=int)  
+    rows, cols = grid_shape
+    img_height, img_width = image_shape
 
-    cv2.imwrite("currentPhoto.png", image) 
-    image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #HSV is hue saturation value
+    cell_height = img_height / rows
+    cell_width = img_width / cols
+
+    for contour in contours:
+        if cv2.contourArea(contour) > 400:  #
+            M = cv2.moments(contour)
+            if M["m00"] != 0:
+                cx = int(M["m10"] / M["m00"]) 
+                cy = int(M["m01"] / M["m00"]) 
+
+                col = int(cx / cell_width)
+                row = int(cy / cell_height)
+
+                if 0 <= row < rows and 0 <= col < cols:
+                    grid[row, col] = 1  # 
+    return grid
+
+
+
+cam_port = 0
+cam = cv2.VideoCapture(cam_port)
+result, image = cam.read()
+
+if result:
+    cv2.imwrite("currentPhoto.png", image)
+    image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower_red = np.array([140, 80, 80])
     upper_red = np.array([255, 255, 255])
     mask_red = cv2.inRange(image_hsv, lower_red, upper_red)
-    contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours_red, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Draw the contours on the original image
-    for contour in contours:
-        if cv2.contourArea(contour) > 400:  # Filter small contours if needed
-            cv2.drawContours(image_hsv, [contour], -1, (0, 255, 0), 3)
 
+    grid_red = map_contours_to_grid(contours_red, (6, 7), image.shape[:2]) 
     lower_yellow = np.array([12, 160, 150])
     upper_yellow = np.array([60, 255, 255])
     mask_yellow = cv2.inRange(image_hsv, lower_yellow, upper_yellow)
-    contours, _ = cv2.findContours(mask_yellow, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours_yellow, _ = cv2.findContours(mask_yellow, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Draw the contours on the original image
-    for contour in contours:
-        if cv2.contourArea(contour) > 400:  # Filter small contours if needed
-            cv2.drawContours(image_hsv, [contour], -1, (255, 0, 0), 3)
+    grid_yellow = map_contours_to_grid(contours_yellow, (6, 7), image.shape[:2]) 
 
 
-    bitwiseOr = cv2.bitwise_or(cv2.img_yellow, cv2.img_red)
-    cv2.imshow("test",bitwiseOr)
-    cv2.waitKey(0) 
-    cv2.destroyWindow("test") 
+    combined_grid = grid_red + grid_yellow * 2 
+    print("Grid (Red=1, Yellow=2):\n", combined_grid)
 
-   
-else: 
-    print("No image detected. Please! try again") 
+    for contour in contours_red:
+        if cv2.contourArea(contour) > 400:
+            cv2.drawContours(image, [contour], -1, (0, 0, 255), 3)
+
+    for contour in contours_yellow:
+        if cv2.contourArea(contour) > 400:
+            cv2.drawContours(image, [contour], -1, (0, 255, 255), 3)
+
+    cv2.imshow("Contours", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+else:
+    print("No image detected. Please try again.")
