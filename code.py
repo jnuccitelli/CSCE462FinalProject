@@ -62,7 +62,7 @@ def play_piece():
         p.ChangeDutyCycle(8)
         time.sleep(2)
 
-while(true):
+while(True):
     startpos = 4
     newpos = GetBestMoveFromPhoto()[1]
 
