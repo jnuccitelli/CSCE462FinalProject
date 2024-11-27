@@ -57,7 +57,7 @@ def step_motor_back(steps):
 def play_piece():
         p.ChangeDutyCycle(8)
         sleep(2)
-        p.ChangeDutyCycle(11)
+        p.ChangeDutyCycle(10.4)
         sleep(2)
         p.ChangeDutyCycle(8)
         sleep(2)
