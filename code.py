@@ -63,7 +63,7 @@ def play_piece():
         sleep(2)
 
 while(True):
-    startpos = 4
+    startpos = 3
     newpos = GetBestMoveFromPhoto()[1]
 
     while (startpos != newpos):
