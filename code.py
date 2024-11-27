@@ -62,8 +62,9 @@ def play_piece():
         p.ChangeDutyCycle(8)
         sleep(2)
 
+
+startpos = 3
 while(True):
-    startpos = 3
     newpos = GetBestMoveFromPhoto()[1]
 
     while (startpos != newpos):
@@ -77,7 +78,7 @@ while(True):
     play_piece()
     step_motor(4)
     sleep(2)
-    step_motor(-8)
+    step_motor_back(8)
     sleep(2)
     step_motor(4)
     sleep(10)
