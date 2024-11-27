@@ -56,11 +56,11 @@ def step_motor_back(steps):
 
 def play_piece():
         p.ChangeDutyCycle(8)
-        time.sleep(2)
+        sleep(2)
         p.ChangeDutyCycle(10)
-        time.sleep(2)
+        sleep(2)
         p.ChangeDutyCycle(8)
-        time.sleep(2)
+        sleep(2)
 
 while(True):
     startpos = 4
