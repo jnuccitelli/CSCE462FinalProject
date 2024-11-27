@@ -75,6 +75,11 @@ while(True):
                     startpos += 1
 
     play_piece()
+    step_motor(4)
+    sleep(2)
+    step_motor(-8)
+    sleep(2)
+    step_motor(4)
     sleep(10)
 
 
