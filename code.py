@@ -1,6 +1,6 @@
 from gpiozero import OutputDevice
 from time import sleep
-from RPi.GPIO import GPIO
+import RPi.GPIO as GPIO
 from solver import GetBestMoveFromPhoto
 
 
