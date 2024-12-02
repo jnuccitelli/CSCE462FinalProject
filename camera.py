@@ -39,6 +39,7 @@ def CaptureBoard():
 
 
         grid_red = map_contours_to_grid(contours_red, (6, 7), image.shape[:2]) 
+        
         lower_yellow = np.array([12, 160, 150])
         upper_yellow = np.array([60, 255, 255])
         mask_yellow = cv2.inRange(image_hsv, lower_yellow, upper_yellow)
@@ -66,3 +67,5 @@ def CaptureBoard():
         print("No image detected. Please try again.")
         return -1
 
+
+print(CaptureBoard())
