@@ -55,6 +55,16 @@ def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
     return bestScore, bestCol
 
 def winCheck(board):
+    if(board.nMoves ==0):
+        empty = True
+        for i in range(board.nCols):
+            for j in range(board.nRows):
+                if(board.board != -1):
+                    empty = False
+                    break
+        if(empty):
+            return 17, 3
+
     orgPlayer = board.curPlayer
     opponent = (board.curPlayer + 1) % 2
     board.curPlayer = opponent
