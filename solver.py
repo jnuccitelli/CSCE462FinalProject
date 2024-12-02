@@ -54,7 +54,17 @@ def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
             break  
     return bestScore, bestCol
 
+def winCheck(board):
+    orgPlayer = board.curPlayer
+    opponent = (board.curPlayer + 1) % 2
+    board.curPlayer = opponent
 
+    for col in range(board.nCol):
+        if(board.canPlay(col) and board.isWinningMove(col)):
+            return -21,col
+        
+    board.curPlayer = orgPlayer
+    return bestMove(board,9)
 
 def GetBestMoveFromPhoto():
     board = Board(7,6)
@@ -66,7 +76,7 @@ def GetBestMoveFromPhoto():
         for j in range(len(grid[i])):
             newBoard[j][i] = grid[i][j]
     board.setBoard(newBoard)
-    res = bestMove(board,9)
+    res = winCheck(board)
     print("best move: ",res)
     return res
 
