@@ -55,12 +55,11 @@ def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
     return bestScore, bestCol
 
 def winCheck(board):
-    print(board.nMoves)
     if(board.nMoves == 0):
         empty = True
         for i in range(board.nCol):
             for j in range(board.nRow):
-                if(board.board != -1):
+                if(board.board[i][j] != -1):
                     empty = False
                     break
         if(empty):
