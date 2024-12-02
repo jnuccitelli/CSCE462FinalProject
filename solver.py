@@ -57,8 +57,8 @@ def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
 def winCheck(board):
     if(board.nMoves ==0):
         empty = True
-        for i in range(board.nCols):
-            for j in range(board.nRows):
+        for i in range(board.nCol):
+            for j in range(board.nRow):
                 if(board.board != -1):
                     empty = False
                     break
