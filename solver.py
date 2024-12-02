@@ -65,6 +65,11 @@ def winCheck(board):
         if(empty):
             return 17, 3
 
+    for col in range(board.nCol):
+        if(board.canPlay(col) and board.isWinningMove(col)):
+            print("winning move detected at ", col)
+            return 22, col
+
     orgPlayer = board.curPlayer
     opponent = (board.curPlayer + 1) % 2
     board.curPlayer = opponent
