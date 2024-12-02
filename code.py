@@ -66,7 +66,7 @@ def play_piece():
 startpos = 3
 while(True):
     newpos = GetBestMoveFromPhoto()[1]
-
+    print("moving servo")
     while (startpos != newpos):
             if (startpos > newpos):
                     step_motor_back(45)
@@ -81,7 +81,8 @@ while(True):
     step_motor_back(8)
     sleep(2)
     step_motor(4)
+    print("piece played waiting for opponent")
     sleep(10)
-
+    print("starting next move")
 
 
