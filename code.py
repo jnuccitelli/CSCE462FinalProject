@@ -2,6 +2,7 @@ from gpiozero import OutputDevice
 from time import sleep
 import RPi.GPIO as GPIO
 from solver import GetBestMoveFromPhoto
+import cv2
 
 
 GPIO.setmode(GPIO.BOARD)
@@ -64,6 +65,9 @@ def play_piece():
 
 numMoves = 0
 startpos = 3
+
+cam_port = 0
+cam = cv2.VideoCapture(cam_port)
 while(True):
     newpos = GetBestMoveFromPhoto(numMoves)[1]
     print("moving servo")

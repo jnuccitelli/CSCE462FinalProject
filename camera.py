@@ -24,9 +24,8 @@ def map_contours_to_grid(contours, grid_shape, image_shape):
     return grid
 
 
-def CaptureBoard():
-    cam_port = 0
-    cam = cv2.VideoCapture(cam_port)
+def CaptureBoard(cam):
+
     result, image = cam.read()
 
     if result:
