@@ -91,8 +91,11 @@ def GetBestMoveFromPhoto(numMoves,cam):
         for j in range(len(grid[i])):
             newBoard[j][i] = grid[i][j]
     board.setBoard(newBoard)
+    print(board.board)
     board.nMoves = numMoves
     res = winCheck(board)
     print("best move: ",res)
     return res
+
+
 
