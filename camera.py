@@ -66,5 +66,3 @@ def CaptureBoard(cam):
         print("No image detected. Please try again.")
         return -1
 
-
-print(CaptureBoard())
