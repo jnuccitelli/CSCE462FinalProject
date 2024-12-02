@@ -55,8 +55,6 @@ def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
     return bestScore, bestCol
 
 def winCheck(board):
-    if(board.nMoves == 0 and board.canPlay(3)):
-        return 17,3
     orgPlayer = board.curPlayer
     opponent = (board.curPlayer + 1) % 2
     board.curPlayer = opponent
