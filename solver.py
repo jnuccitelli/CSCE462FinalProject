@@ -92,7 +92,7 @@ def GetBestMoveFromPhoto(numMoves,cam):
             newBoard[j][i] = grid[i][j]
     board.setBoard(newBoard)
     for i in range(len(board.board)):
-        board.board[i] = board.board[i].reverse()
+        board.board[i].reverse()
     print(board.board)
     board.nMoves = numMoves
     res = winCheck(board)
