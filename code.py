@@ -69,7 +69,7 @@ startpos = 3
 cam_port = 0
 cam = cv2.VideoCapture(cam_port)
 while(True):
-    newpos = GetBestMoveFromPhoto(numMoves)[1]
+    newpos = GetBestMoveFromPhoto(numMoves,cam)[1]
     print("moving servo")
     while (startpos != newpos):
             if (startpos > newpos):
