@@ -1,45 +1,71 @@
 from board import Board
 from camera import CaptureBoard
 
-'''calculate the best move of the board'''
-def bestMove(board):
-    if(board.nMoves == board.nRow * board.nCol):
-        return (0,0) #draw
-    
-    for i in range(board.nCol):
+def bestMove(board, depth, alpha=float('-inf'), beta=float('inf')):
+    def evaluate_board(board):
+        score = 0
+        center_col = 3
+        for col in range(board.nCol):
+            for row in range(board.nRow):
+                if board.board[col][row] == board.curPlayer:
+                    score += 4 - abs(center_col - col)  
+        return score
 
-        if(board.canPlay(i) and board.isWinningMove(i)):
-            return ((board.nCol * board.nRow + 1 - board.nMoves) // 2,i)
 
-    # the lower bound should be this  
-    bestScore = - board.nCol * board.nRow
+    if board.nMoves == board.nRow * board.nCol:
+        return 0, -1 
 
+
+    if depth == 0:
+        return evaluate_board(board), -1
+
+    for col in range(board.nCol):
+        if board.canPlay(col) and board.isWinningMove(col):
+            return (board.nCol * board.nRow + 1 - board.nMoves) // 2, col
+    bestScore = float('-inf')
     bestCol = -1
-    for i in range(board.nCol):
-        if(board.canPlay(i)):
-            nextboard = board
-            nextboard.play(i)
-            (score,col) = bestMove(nextboard)
-            if(score  > bestScore):
-                bestScore = score
-                bestCol = col
 
-    return (bestScore,bestCol)
+    playable_cols = [col for col in range(board.nCol) if board.canPlay(col)]
+
+    for col in playable_cols:
+        for row in range(board.nRow):
+            if board.board[col][row] == -1:
+                board.board[col][row] = board.curPlayer
+                board.curPlayer = (board.curPlayer + 1) % 2
+                board.nMoves += 1
+                break
+
+
+        score, _ = bestMove(board, depth - 1, -beta, -alpha)
+        score *= -1  
+        for row in range(board.nRow - 1, -1, -1):
+            if board.board[col][row] != -1:
+                board.board[col][row] = -1
+                board.curPlayer = (board.curPlayer + 1) % 2
+                board.nMoves -= 1
+                break
+
+        if score > bestScore:
+            bestScore = score
+            bestCol = col
+
+        alpha = max(alpha, bestScore)
+        if alpha >= beta:
+            break  
+    return bestScore, bestCol
+
+
 
 def GetBestMoveFromPhoto():
     board = Board(7,6)
     grid = CaptureBoard()
     grid = grid -1
+    print(grid)
     newBoard = [[-1] * 6 for _ in range(7)]
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             newBoard[j][i] = grid[i][j]
     board.setBoard(newBoard)
-    return bestMove(board)
-
-print(GetBestMoveFromPhoto())
-
-
-
-
+    print("best move: ",bestMove(board,10))
+    return bestMove(board,10)
 
