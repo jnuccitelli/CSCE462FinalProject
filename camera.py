@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
-
+def imgshow(name,img):
+    cv2.imshow(name,img)
+    cv2.moveWindow(name,200,200)
+    cv2.waitKey(0)
 def map_contours_to_grid(contours, grid_shape, image_shape):
     grid = np.zeros(grid_shape, dtype=int)  
     rows, cols = grid_shape
@@ -27,6 +30,7 @@ def map_contours_to_grid(contours, grid_shape, image_shape):
 def CaptureBoard(cam):
 
     result, image = cam.read()
+    imgshow('Picture',image)
 
     if result:
         cv2.imwrite("currentPhoto.png", image)
