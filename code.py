@@ -62,10 +62,10 @@ def play_piece():
         p.ChangeDutyCycle(8)
         sleep(2)
 
-
+numMoves = 0
 startpos = 3
 while(True):
-    newpos = GetBestMoveFromPhoto()[1]
+    newpos = GetBestMoveFromPhoto(numMoves)[1]
     print("moving servo")
     while (startpos != newpos):
             if (startpos > newpos):
@@ -81,8 +81,10 @@ while(True):
     step_motor_back(8)
     sleep(2)
     step_motor(4)
+    numMoves += 1
     print("piece played waiting for opponent")
     sleep(10)
+    numMoves += 1
     print("starting next move")
 
 

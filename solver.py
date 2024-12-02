@@ -66,7 +66,7 @@ def winCheck(board):
     board.curPlayer = orgPlayer
     return bestMove(board,9)
 
-def GetBestMoveFromPhoto():
+def GetBestMoveFromPhoto(numMoves):
     board = Board(7,6)
     grid = CaptureBoard()
     grid = grid -1
@@ -76,6 +76,7 @@ def GetBestMoveFromPhoto():
         for j in range(len(grid[i])):
             newBoard[j][i] = grid[i][j]
     board.setBoard(newBoard)
+    board.numMoves = numMoves
     res = winCheck(board)
     print("best move: ",res)
     return res
