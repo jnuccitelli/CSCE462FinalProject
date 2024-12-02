@@ -30,7 +30,6 @@ def map_contours_to_grid(contours, grid_shape, image_shape):
 def CaptureBoard(cam):
 
     result, image = cam.read()
-    imgshow('Picture',image)
 
     if result:
         cv2.imwrite("currentPhoto.png", image)
