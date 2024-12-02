@@ -66,9 +66,10 @@ def play_piece():
 numMoves = 0
 startpos = 3
 
-cam_port = 0
-cam = cv2.VideoCapture(cam_port)
+
 while(True):
+    cam_port = -1
+    cam = cv2.VideoCapture(cam_port)
     newpos = GetBestMoveFromPhoto(numMoves,cam)[1]
     print("moving servo")
     while (startpos != newpos):
